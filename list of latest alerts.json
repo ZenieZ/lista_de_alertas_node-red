@@ -1,0 +1,162 @@
+[
+    {
+        "id": "07de76aeb695a2e4",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "890a72c19449afc3",
+        "type": "inject",
+        "z": "07de76aeb695a2e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Barreira violada 6/9/2023 13:35:15, Barreira violada 6/9/2023 13:35:17, Barreira violada 6/9/2023 13:35:33, Barreira violada 6/9/2023 13:35:43, Barreira violada 6/9/2023 13:39:17, Barreira violada 6/9/2023 13:39:18, Barreira violada 6/9/2023 13:39:31, Barreira violada 6/9/2023 13:40:6, Barreira violada 6/9/2023 13:42:41",
+        "payloadType": "str",
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "8b85f205df68acde"
+            ]
+        ]
+    },
+    {
+        "id": "8d127332118a0c80",
+        "type": "function",
+        "z": "07de76aeb695a2e4",
+        "name": "function 2",
+        "func": "// 'Object.values' pega somente os valores do array\n// usa o 'msg.payload[0]' ao invés de somente msg.payload para trabalhar somente com o array de dentro do objeto\nlet lista = Object.values(msg.payload[0])\n\n// eu não sei como pega os ultimos valores, mas sei exibir uma quantidade específica a partir do primeiro\n// então inverte o array, já que queremos mostras as ultimas, as ultimas vão para o começo do array, colocando ele como uma nova variável\nlet lista_inversa = lista.reverse();\n\n// aqui a gente define o tamanho do array a partir do primeiro valor da lista, nesse caso 3\nlista_inversa.length = 3;\n\n// coloco pra ele retornar a lista_inversa que já é variável com o array tratado\nmsg.payload = lista_inversa;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 180,
+        "wires": [
+            [
+                "66c31d96f42b8d97"
+            ]
+        ]
+    },
+    {
+        "id": "8b85f205df68acde",
+        "type": "csv",
+        "z": "07de76aeb695a2e4",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 350,
+        "y": 180,
+        "wires": [
+            [
+                "8d127332118a0c80"
+            ]
+        ]
+    },
+    {
+        "id": "4637904e2821213c",
+        "type": "ui_text",
+        "z": "07de76aeb695a2e4",
+        "group": "c4544272a59e073d",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Ultimas ocorrencias",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 870,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "66c31d96f42b8d97",
+        "type": "template",
+        "z": "07de76aeb695a2e4",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.0}}\n{{payload.1}}\n{{payload.2}}",
+        "output": "str",
+        "x": 660,
+        "y": 180,
+        "wires": [
+            [
+                "4637904e2821213c"
+            ]
+        ]
+    },
+    {
+        "id": "036595aed99235ea",
+        "type": "comment",
+        "z": "07de76aeb695a2e4",
+        "name": "Só pra simular a sua entrada de dados",
+        "info": "",
+        "x": 190,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "a57172a2b457a4d2",
+        "type": "comment",
+        "z": "07de76aeb695a2e4",
+        "name": "Explicação CSV",
+        "info": "No CSV eu coloquei pra ele gerar uma unica mensagem em forma de array.\n\nMas o CSV gera um array de objetos,\ndentro desses objetos outro array com o key/values (topic : payload) do CSV:\n\n[{\"col1\":\"Banana\",\"col2\":\"Calabresa\",\"col3\":\"Pera\",\"col4\":\"tomate\"}]\n\nPrecisa primeiro tirar o objeto de dentro do array ai vai no function\n",
+        "x": 320,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "626a62591fe2615c",
+        "type": "comment",
+        "z": "07de76aeb695a2e4",
+        "name": "Explicação templete",
+        "info": "Coloquei pra exibir os valores dos arrays pulando linha com \"Enter\"\n\n{{payload.0}}\n{{payload.1}}\n{{payload.2}}\n\nDesse jeito ele pega o valor de cada endereço do array e deixa na ordem",
+        "x": 690,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c4544272a59e073d",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "3fc77159a8b87a05",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3fc77159a8b87a05",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
